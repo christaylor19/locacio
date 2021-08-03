@@ -4,9 +4,10 @@ import { Session } from '@supabase/supabase-js';
 
 import Account from '../components/Account';
 import Auth from '../components/Auth';
+import Layout from '../components/Layout';
 import { supabase } from '../utils/supabase';
 
-export default function Home() {
+const Home: React.FC = () => {
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
@@ -18,8 +19,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="container" style={{ padding: '50px 0 100px 0' }}>
-      {!session ? <Auth /> : <Account key={session.user?.id} session={session} />}
-    </div>
+    <Layout>{!session ? <Auth /> : <Account key={session.user?.id} session={session} />}</Layout>
   );
-}
+};
+
+export default Home;
