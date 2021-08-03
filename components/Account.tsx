@@ -1,10 +1,12 @@
 import { FC, useEffect, useState } from 'react';
 
+import { Session } from '@supabase/supabase-js';
+
 import { supabase } from '../utils/supabase';
 import Avatar from './Avatar';
 
 interface Props {
-  session: any;
+  session: Session;
 }
 
 const Account: FC<Props> = ({ session }) => {
@@ -79,7 +81,7 @@ const Account: FC<Props> = ({ session }) => {
     <div className="form-widget">
       <div>
         <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
+        <input id="email" type="text" value={session.user?.email} disabled />
       </div>
       <div>
         <label htmlFor="username">Name</label>
