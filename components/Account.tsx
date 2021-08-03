@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 
 import { supabase } from '../utils/supabase';
+import Avatar from './Avatar';
 
 interface Props {
   session: any;
@@ -98,6 +99,14 @@ const Account: FC<Props> = ({ session }) => {
           onChange={(e) => setWebsite(e.target.value)}
         />
       </div>
+      <Avatar
+        url={avatar_url}
+        size={150}
+        onUpload={(url: string) => {
+          setAvatarUrl(url);
+          updateProfile();
+        }}
+      />
 
       <div>
         <button className="button block primary" onClick={() => updateProfile()} disabled={loading}>
