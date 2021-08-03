@@ -1,0 +1,55 @@
+module.exports = {
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
+  },
+  extends: [
+    'airbnb',
+    'prettier',
+    'plugin:react/recommended',
+    'plugin:jest/recommended',
+    'plugin:testing-library/recommended',"next", "next/core-web-vitals"
+  ],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true,
+      jsx: true,
+      sourceType: 'module',
+      allowImportExportEverywhere: false,
+    },
+    sourceType: 'module',
+  },
+  plugins: ['prettier', 'import', '@typescript-eslint', 'testing-library', 'jest-dom'],
+  rules: {
+    'arrow-parens': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'object-curly-newline': 'off',
+    'object-shorthand': 'off',
+    'no-console': ['error', { allow: ['warn', 'error', 'log'] }],
+    'lines-between-class-members': 'off',
+    'import/no-unresolved': 'off',
+    'function-paren-newline': 'off',
+    'operator-linebreak': 'off',
+    'react/jsx-filename-extension': 'off',
+    'react/jsx-one-expression-per-line': 'off',
+    'import/prefer-default-export': 'off',
+    'react/jsx-curly-brace-presence': 'off',
+    'react/no-unused-state': 'off',
+    'react/sort-comp': 'off',
+    'react/static-property-placement': 'off',
+    'import/extensions': [0, 'never', { ts: 'never', tsx: 'never' }],
+    'react/jsx-props-no-spreading': 'off',
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'no-unused-vars': 'off',
+    'react/prop-types': 'off',
+    'jest/expect-expect': 'off',
+    'no-use-before-define': 'off',
+    'jsx-a11y/anchor-is-valid': 'off'
+  },
+};

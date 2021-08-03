@@ -1,47 +1,56 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '../utils/supabase'
+import { FC, useEffect, useState } from 'react';
 
-export default function Account({ session }) {
-  const [loading, setLoading] = useState(true)
-  const [username, setUsername] = useState(null)
-  const [website, setWebsite] = useState(null)
-  const [avatar_url, setAvatarUrl] = useState(null)
+import { supabase } from '../utils/supabase';
+
+interface Props {
+  session: any;
+}
+
+const Account: FC<Props> = ({ session }) => {
+  const [loading, setLoading] = useState(true);
+  const [username, setUsername] = useState<string | null>(null);
+  const [website, setWebsite] = useState<string | null>(null);
+  const [avatar_url, setAvatarUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    getProfile()
-  }, [session])
+    getProfile();
+  }, [session]);
 
   async function getProfile() {
     try {
-      setLoading(true)
-      const user = supabase.auth.user()
+      setLoading(true);
+      const user = supabase.auth.user();
+
+      if (!user) throw new Error('');
 
       let { data, error, status } = await supabase
         .from('profiles')
         .select(`username, website, avatar_url`)
         .eq('id', user.id)
-        .single()
+        .single();
 
       if (error && status !== 406) {
-        throw error
+        throw error;
       }
 
       if (data) {
-        setUsername(data.username)
-        setWebsite(data.website)
-        setAvatarUrl(data.avatar_url)
+        setUsername(data.username);
+        setWebsite(data.website);
+        setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
-  async function updateProfile({ username, website, avatar_url }) {
+  async function updateProfile() {
     try {
-      setLoading(true)
-      const user = supabase.auth.user()
+      setLoading(true);
+      const user = supabase.auth.user();
+
+      if (!user) throw new Error('');
 
       const updates = {
         id: user.id,
@@ -49,19 +58,19 @@ export default function Account({ session }) {
         website,
         avatar_url,
         updated_at: new Date(),
-      }
+      };
 
       let { error } = await supabase.from('profiles').upsert(updates, {
         returning: 'minimal', // Don't return the value after inserting
-      })
+      });
 
       if (error) {
-        throw error
+        throw error;
       }
     } catch (error) {
-      alert(error.message)
+      alert(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -91,11 +100,7 @@ export default function Account({ session }) {
       </div>
 
       <div>
-        <button
-          className="button block primary"
-          onClick={() => updateProfile({ username, website, avatar_url })}
-          disabled={loading}
-        >
+        <button className="button block primary" onClick={() => updateProfile()} disabled={loading}>
           {loading ? 'Loading ...' : 'Update'}
         </button>
       </div>
@@ -106,5 +111,7 @@ export default function Account({ session }) {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
+
+export default Account;
