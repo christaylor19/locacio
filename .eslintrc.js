@@ -4,13 +4,7 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: [
-    'airbnb',
-    'prettier',
-    'plugin:react/recommended',
-    'plugin:jest/recommended',
-    'plugin:testing-library/recommended',"next", "next/core-web-vitals"
-  ],
+  extends: ['airbnb', 'prettier', 'plugin:react/recommended', 'next', 'next/core-web-vitals'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -25,7 +19,7 @@ module.exports = {
     },
     sourceType: 'module',
   },
-  plugins: ['prettier', 'import', '@typescript-eslint', 'testing-library', 'jest-dom'],
+  plugins: ['prettier', 'import', '@typescript-eslint'],
   rules: {
     'arrow-parens': 'off',
     'implicit-arrow-linebreak': 'off',
@@ -50,6 +44,12 @@ module.exports = {
     'react/prop-types': 'off',
     'jest/expect-expect': 'off',
     'no-use-before-define': 'off',
-    'jsx-a11y/anchor-is-valid': 'off'
+    'jsx-a11y/anchor-is-valid': 'off',
+    'no-shadow': 'off',
+    'react/button-has-type': 'off',
+    camelcase: 'off',
+    'no-alert': 'off',
+    '@next/next/no-img-element': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
 };

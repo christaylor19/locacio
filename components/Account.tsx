@@ -24,7 +24,7 @@ const Account: FC<Props> = ({ session }) => {
 
       if (!user) throw new Error('');
 
-      let { data, error, status } = await supabase
+      const { data, error, status } = await supabase
         .from('profiles')
         .select(`username, website, avatar_url`)
         .eq('id', user.id)
@@ -61,7 +61,7 @@ const Account: FC<Props> = ({ session }) => {
         updated_at: new Date(),
       };
 
-      let { error } = await supabase.from('profiles').upsert(updates, {
+      const { error } = await supabase.from('profiles').upsert(updates, {
         returning: 'minimal', // Don't return the value after inserting
       });
 
@@ -102,8 +102,8 @@ const Account: FC<Props> = ({ session }) => {
       <Avatar
         url={avatar_url}
         size={150}
-        onUpload={(url: string) => {
-          setAvatarUrl(url);
+        onUpload={(newAvatar: string) => {
+          setAvatarUrl(newAvatar);
           updateProfile();
         }}
       />
