@@ -53,21 +53,30 @@ const Layout: FC<Props> = ({ children, session }) => {
         setAvatarUrl(url);
       }
     } catch (error) {
-      alert(error.message);
+      console.error('Getting Profile', error.message);
     } finally {
       setLoading(false);
     }
   }
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      router.push('/');
+    } catch (error) {
+      console.error('Logging Out', error.message);
+    }
+  };
 
   return (
     <div className="container">
       <Flex e>
         <Box p="2">
           <IconButton
-            aria-label="Toggle Colour Mode"
+            aria-label="Go Home"
             size="lg"
             icon={<Icon as={GoHome} />}
-            onClick={toggleColorMode}
+            onClick={() => (session ? router.push('/dashboard') : router.push('/'))}
           />
         </Box>
         <Spacer />
@@ -82,15 +91,16 @@ const Layout: FC<Props> = ({ children, session }) => {
         {session && !loading && avatar_url && (
           <Box py="2" px="1">
             <WrapItem>
-              <Avatar name="Dan Abrahmov" src={avatar_url} />
+              <Avatar
+                name="Dan Abrahmov"
+                src={avatar_url}
+                onClick={() => router.push('/profile')}
+              />
             </WrapItem>
           </Box>
         )}
         <Box py="2" px="1">
-          <Button
-            size="lg"
-            onClick={() => (session ? supabase.auth.signOut() : router.push('login'))}
-          >
+          <Button size="lg" onClick={() => (session ? handleLogout() : router.push('login'))}>
             {session ? 'Log Out' : 'Log In'}
           </Button>
         </Box>

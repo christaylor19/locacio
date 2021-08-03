@@ -21,7 +21,7 @@ const Avatar: FC<Props> = ({ url, size, onUpload }) => {
       const url = URL.createObjectURL(data);
       setAvatarUrl(url);
     } catch (error) {
-      console.log('Error downloading image: ', error.message);
+      console.error('Downloading Image', error.message);
     }
   };
 
@@ -50,7 +50,7 @@ const Avatar: FC<Props> = ({ url, size, onUpload }) => {
 
       onUpload(filePath);
     } catch (error) {
-      alert(error.message);
+      console.error('Uploading Avatar', error.message);
     } finally {
       setUploading(false);
     }

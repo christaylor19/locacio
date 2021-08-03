@@ -42,7 +42,7 @@ const Account: FC<Props> = ({ session }) => {
         setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
-      alert(error.message);
+      console.error('Getting Profile', error.message);
     } finally {
       setLoading(false);
     }
@@ -71,7 +71,7 @@ const Account: FC<Props> = ({ session }) => {
         throw error;
       }
     } catch (error) {
-      alert(error.message);
+      console.error('Updating Profile', error.message);
     } finally {
       setLoading(false);
     }
