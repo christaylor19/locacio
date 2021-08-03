@@ -5,12 +5,11 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "local": "run-s tab:application",
     "start": "next start",
-    "lint": "next lint",
-    "tab:application": "ttab -t 'Next Application' npm run dev"
+    "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^1.21.0",
     "next": "11.0.1",
     "open": "^8.2.1",
     "react": "17.0.2",
@@ -21,7 +20,6 @@
     "eslint": "7.31.0",
     "eslint-config-next": "11.0.1",
     "npm-run-all": "^4.1.5",
-    "ttab": "^0.7.1",
     "typescript": "4.3.5"
   }
 }
