@@ -13,8 +13,10 @@ const Login: FC = () => {
   if (session) router.push('/dashboard');
   return (
     <Layout session={session}>
-      <Heading>Login</Heading>
-      <Auth />
+      <>
+        <Heading>Login</Heading>
+        <Auth />
+      </>
     </Layout>
   );
 };
