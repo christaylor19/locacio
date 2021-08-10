@@ -1,10 +1,13 @@
 import { useRouter } from 'next/router';
 import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { GoHome } from 'react-icons/go';
+import { GoHome, GoSignIn, GoSignOut } from 'react-icons/go';
 
-import { SunIcon } from '@chakra-ui/icons';
 import {
-    Avatar, Box, Button, Flex, Icon, IconButton, Spacer, useColorMode, WrapItem
+    AddIcon, EditIcon, ExternalLinkIcon, HamburgerIcon, RepeatIcon, SunIcon
+} from '@chakra-ui/icons';
+import {
+    Avatar, Box, Button, Container, Flex, Icon, IconButton, Image, Menu, MenuButton, MenuItem,
+    MenuList, Spacer, useColorMode, WrapItem
 } from '@chakra-ui/react';
 import { Session } from '@supabase/supabase-js';
 
@@ -69,44 +72,63 @@ const Layout: FC<Props> = ({ children, session }) => {
   };
 
   return (
-    <div className="container">
-      <Flex e>
+    <Flex className="container" direction="column" h="100vh" backgroundColor="#F5F8FA">
+      <Flex backgroundColor="black" alignItems="center" px="8">
         <Box p="2">
-          <IconButton
-            aria-label="Go Home"
+          <Button
+            leftIcon={<Icon w={6} h={6} as={GoHome} />}
             size="lg"
-            icon={<Icon as={GoHome} />}
             onClick={() => (session ? router.push('/dashboard') : router.push('/'))}
-          />
+          >
+            Locacio
+          </Button>
         </Box>
         <Spacer />
         <Box py="2" px="1">
           <IconButton
             aria-label="Toggle Colour Mode"
-            size="lg"
+            size="md"
             icon={<SunIcon />}
             onClick={toggleColorMode}
           />
         </Box>
         {session && !loading && avatar_url && (
-          <Box py="2" px="1">
-            <WrapItem>
-              <Avatar
-                name="Dan Abrahmov"
-                src={avatar_url}
-                onClick={() => router.push('/profile')}
-              />
-            </WrapItem>
-          </Box>
-        )}
-        <Box py="2" px="1">
-          <Button size="lg" onClick={() => (session ? handleLogout() : router.push('login'))}>
-            {session ? 'Log Out' : 'Log In'}
+          <Button onClick={() => router.push('/profile')} variant="unstyled">
+            <Image
+              boxSize="36px"
+              borderRadius="4"
+              objectFit="cover"
+              src={avatar_url}
+              alt="Chris Taylor"
+            />
           </Button>
-        </Box>
+        )}
+        <Menu gutter={16}>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<HamburgerIcon />}
+            variant="outline"
+            backgroundColor="white"
+          />
+          <MenuList>
+            <MenuItem
+              icon={
+                session ? <Icon w={4} h={4} as={GoSignOut} /> : <Icon w={4} h={4} as={GoSignIn} />
+              }
+              onClick={() => (session ? handleLogout() : router.push('login'))}
+            >
+              {session ? 'Log Out' : 'Log In'}
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </Flex>
-      <Flex>{children}</Flex>
-    </div>
+      <Flex direction="column" flex="1">
+        <Container maxW="container.lg" h="full" backgroundColor="white">
+          {children}
+        </Container>
+      </Flex>
+    </Flex>
   );
 };
 

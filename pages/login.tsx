@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 
+import { Heading } from '@chakra-ui/react';
+
 import Auth from '../components/Auth';
 import Layout from '../components/Layout';
 import useAuth from '../hooks/useAuth';
@@ -11,6 +13,7 @@ const Login: FC = () => {
   if (session) router.push('/dashboard');
   return (
     <Layout session={session}>
+      <Heading>Login</Heading>
       <Auth />
     </Layout>
   );
