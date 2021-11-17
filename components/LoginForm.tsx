@@ -1,8 +1,11 @@
 import { useState } from 'react';
 
+import { Heading } from '@chakra-ui/react';
+
 import { supabase } from '../utils/supabase';
 
-export default function Auth() {
+const LoginForm = () => {
+  console.group('LoginForm');
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
 
@@ -19,10 +22,14 @@ export default function Auth() {
     }
   };
 
+  console.groupEnd();
+
   return (
-    <div className="row flex flex-center">
+    <div data-testid="LoginForm" className="row flex flex-center">
       <div className="col-6 form-widget">
-        <h1 className="header">Supabase + Next.js</h1>
+        <Heading as="h1" size="xl" color="chocolate">
+          Supabase + Next.js
+        </Heading>
         <p className="description">Sign in via magic link with your email below</p>
         <div>
           <input
@@ -48,4 +55,6 @@ export default function Auth() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginForm;

@@ -3,8 +3,8 @@ import { FC } from 'react';
 
 import { Heading } from '@chakra-ui/react';
 
-import Auth from '../components/Auth';
 import Layout from '../components/Layout';
+import Auth from '../components/LoginForm';
 import useAuth from '../hooks/useAuth';
 
 const Login: FC = () => {

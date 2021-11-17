@@ -1,17 +1,11 @@
 import { useRouter } from 'next/router';
 import React, { FC, ReactElement, useEffect, useState } from 'react';
-import { GoHome, GoSignIn, GoSignOut } from 'react-icons/go';
 
-import {
-    AddIcon, EditIcon, ExternalLinkIcon, HamburgerIcon, RepeatIcon, SunIcon
-} from '@chakra-ui/icons';
-import {
-    Avatar, Box, Button, Container, Flex, Icon, IconButton, Image, Menu, MenuButton, MenuItem,
-    MenuList, Spacer, useColorMode, WrapItem
-} from '@chakra-ui/react';
+import { Container, Flex } from '@chakra-ui/react';
 import { Session } from '@supabase/supabase-js';
 
 import { supabase } from '../utils/supabase';
+import Header from './layout/header';
 
 interface Props {
   children: ReactElement;
@@ -19,19 +13,26 @@ interface Props {
 }
 
 const Layout: FC<Props> = ({ children, session }) => {
-  const { colorMode, toggleColorMode } = useColorMode();
+  console.group('Layout');
   const router = useRouter();
   const [avatar_url, setAvatarUrl] = useState<string | null>(null);
+  console.log('avatar_url: ', avatar_url);
   const [loading, setLoading] = useState(true);
+  console.log('loading: ', loading);
 
   useEffect(() => {
+    console.group('useEffect');
+    console.log('session: ', session);
     getProfile();
+    console.groupEnd();
   }, [session]);
 
   async function getProfile() {
+    console.group('getProfile');
     try {
       setLoading(true);
       const user = supabase.auth.user();
+      console.log('user: ', user);
 
       if (!user) throw new Error('');
 
@@ -40,6 +41,9 @@ const Layout: FC<Props> = ({ children, session }) => {
         .select(`username, website, avatar_url`)
         .eq('id', user.id)
         .single();
+      console.log('data: ', data);
+      console.log('status: ', status);
+      console.log('error: ', error);
 
       if (error && status !== 406) {
         throw error;
@@ -57,8 +61,10 @@ const Layout: FC<Props> = ({ children, session }) => {
       }
     } catch (error) {
       console.error('Getting Profile', error.message);
+      console.groupEnd();
     } finally {
       setLoading(false);
+      console.groupEnd();
     }
   }
 
@@ -70,59 +76,10 @@ const Layout: FC<Props> = ({ children, session }) => {
       console.error('Logging Out', error.message);
     }
   };
-
+  console.groupEnd();
   return (
-    <Flex className="container" direction="column" h="100vh" backgroundColor="#F5F8FA">
-      <Flex backgroundColor="black" alignItems="center" px="8">
-        <Box p="2">
-          <Button
-            leftIcon={<Icon w={6} h={6} as={GoHome} />}
-            size="lg"
-            onClick={() => (session ? router.push('/dashboard') : router.push('/'))}
-          >
-            Locacio
-          </Button>
-        </Box>
-        <Spacer />
-        <Box py="2" px="1">
-          <IconButton
-            aria-label="Toggle Colour Mode"
-            size="md"
-            icon={<SunIcon />}
-            onClick={toggleColorMode}
-          />
-        </Box>
-        {session && !loading && avatar_url && (
-          <Button onClick={() => router.push('/profile')} variant="unstyled">
-            <Image
-              boxSize="36px"
-              borderRadius="4"
-              objectFit="cover"
-              src={avatar_url}
-              alt="Chris Taylor"
-            />
-          </Button>
-        )}
-        <Menu gutter={16}>
-          <MenuButton
-            as={IconButton}
-            aria-label="Options"
-            icon={<HamburgerIcon />}
-            variant="outline"
-            backgroundColor="white"
-          />
-          <MenuList>
-            <MenuItem
-              icon={
-                session ? <Icon w={4} h={4} as={GoSignOut} /> : <Icon w={4} h={4} as={GoSignIn} />
-              }
-              onClick={() => (session ? handleLogout() : router.push('login'))}
-            >
-              {session ? 'Log Out' : 'Log In'}
-            </MenuItem>
-          </MenuList>
-        </Menu>
-      </Flex>
+    <Flex className="container" direction="column" h="100vh" bg="brown">
+      <Header handleLogout={handleLogout} avatar={avatar_url || ''} loading={loading} />
       <Flex direction="column" flex="1">
         <Container maxW="container.lg" h="full" backgroundColor="white">
           {children}
